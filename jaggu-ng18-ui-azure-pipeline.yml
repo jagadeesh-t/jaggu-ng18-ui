@@ -1,0 +1,29 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+    displayName: 'Install Node.js'
+
+- task: Npm@1
+  displayName: 'Angular CLI 18'
+  inputs:
+    command: custom
+    customCommand: 'install -g @angular/cli@18'
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    command: custom
+    customCommand: 'install file:custom-angular-lib.tgz --legacy-peer-deps'
+
+- task: Npm@1
+  displayName: Build
+  inputs:
+    command: custom
+    customCommand: 'run build'
